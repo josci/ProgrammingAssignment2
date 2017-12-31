@@ -1,16 +1,22 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Write a short comment describing this function
+## creates augmented matrix with corrosponding getter / setter methods
+## for its inverse
 
 makeCacheMatrix <- function(x = matrix()) {
     s <- NULL
+    
+    # set matrix, reset cached value of inverse matrix
     set <- function(y) {
         x <<- y
         s <<- NULL
     }
+    
+    # get original matrix
     get <- function() x
+    
+    # set inverse
     setSolve <- function(solve) s <<- solve
+    
+    # get inverse
     getSolve <- function() s
     
     list(set = set, get = get,
@@ -19,28 +25,30 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## Write a short comment describing this function
+## methods returns the inverse of a matrix. Inverse is only calculated at the first 
+## function call. All following calls will return cached values 
 
 cacheSolve <- function(x, ...) {
-    
-    
-    solve <- x$getSolve()
 
+    solve <- x$getSolve()
+    
     # check whether cached values exists
+    # if non existend calculate inverse matrix
     if(is.null(solve)){
-        # get matrix values
+        
+        # get original matrix
         y <- x$get()
         
-        # calculate inverse matrix
+        # calculate inverse
         solve = solve(y)
          
-        # cache inverse matrix
+        # cache inverse
         x$setSolve(solve)
     }
     else {
         message("cached data loaded")
     }
     
-    # return inverse matrix
+    # return inverse
     solve
 }
